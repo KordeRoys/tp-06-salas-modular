@@ -42,9 +42,9 @@ const reservas = [
   },
 ];
 
-const { puerto, formatoRegistro } = leerConfiguracion(); //* configuracion.js
-const servicioReservas = crearServicioReservas(reservas);
-const app = crearApp({ servicioReservas, formatoRegistro });
+const { puerto, formatoRegistro } = leerConfiguracion(); //* configuracion.js 
+const servicioReservas = crearServicioReservas(reservas); // *servicios/reservas.js
+const app = crearApp({ servicioReservas, formatoRegistro }); //crearApp contiene dentro de si todas las rutas y controladores, y recibe como parametro el servicioReservas que contiene la logica de negocio de las reservas
 
 app.listen(puerto, () => {
   console.log(`Aplicación disponible en http://localhost:${puerto}`);

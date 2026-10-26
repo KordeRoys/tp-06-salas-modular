@@ -1,5 +1,5 @@
-function crearServicioReservas(datosIniciales) {
-  const reservas = [...datosIniciales];
+function crearServicioReservas(datosIniciales) { //datosIniciales es un array de objetos que contiene las reservas iniciales. Este array se pasa como parametro a la funcion crearServicioReservas, que devuelve un objeto con tres metodos: listar, obtenerPorId y crear. Estos metodos son los que se utilizan en los controladores para manejar las reservas.
+  const reservas = [...datosIniciales]; //... los tres puntos sirven para hacer una copia del array, para que no se modifique el array original. Esto es importante porque si se modifica el array original, se pierden los datos iniciales. Y si se hace una copia, se puede modificar la copia sin afectar al array original. Esto es importante porque si se modifica el array original, se pierden los datos iniciales. Y si se hace una copia, se puede modificar la copia sin afectar al array original.
 
   function listar() {
     return [...reservas];
@@ -21,4 +21,4 @@ function crearServicioReservas(datosIniciales) {
   return { listar, obtenerPorId, crear };
 }
 
-module.exports = { crearServicioReservas };
+module.exports = { crearServicioReservas }; //Esto se exporta a index.js, donde se importa y se utiliza para crear el servicio de reservas.

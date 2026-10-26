@@ -1,3 +1,5 @@
+//Esto se exporta a /rutas/reservas
+
 function prepararAreaReservas(req, res, next) {
   //Esta funcion sirve setear la variable res.locals.seccion con el valor "Solicita reserva", que luego se va a usar en la vista para mostrar el titulo de la pagina.
   res.locals.seccion = "Solicita reserva"; //res.locals es un objeto que se puede usar para guardar variables que se van a usar en cualquier parte del codigo, ya que se guarda en el objeto res.locals. Y .seccion es una propiedad que se va a usar en la vista para mostrar el titulo de la pagina en listas.ejs
@@ -6,8 +8,8 @@ function prepararAreaReservas(req, res, next) {
 }
 
 function validarDatosReserva(req, res, next) {
-  const estudiante = req.body.estudiante?.trim(); //estudiante? el signo ? sirve para que si estudiante es undefined no tire error, y trim() sirve para quitar los espacios en blanco al principio y al final del string
-  const email = req.body.email?.trim();
+  const estudiante = req.body.estudiante?.trim(); //el signo ? sirve para que si estudiante es undefined no tire error, es un OPERADOR DE ENCADENAMIENTO OPCIONAL  
+  const email = req.body.email?.trim(); //req.body va a contener los datos que se envian desde el formulario, y .email es el nombre del campo del formulario que se va a validar. Y trim() sirve para quitar los espacios en blanco al principio y al final del string
   const sala = req.body.sala?.trim();
   const fecha = req.body.fecha?.trim();
   const turno = req.body.turno?.trim();
@@ -15,22 +17,22 @@ function validarDatosReserva(req, res, next) {
 
   if (
     !estudiante ||
+    !email ||
     !email.includes("@") ||
     !sala ||
     !fecha ||
     !turno ||
-    !Number.isFinite(personas) ||
-    (!personas >= 1 && !personas <= 6)
-  ) {
-    //!personas >= 1 && !personas <=6 significa que si personas es menor a 1 o mayor a 6, entonces es invalido
-    return res.status(400).send("Datos ivalidados", {
-      titulo: "nueva inscripcion",
-      error: "revisa los cambios y elija entre 1 y 6 lugares.",
-      valores: req.body,
+    !Number.isInteger(personas) ||
+    (personas < 1 || personas > 6) 
+  ) { 
+    return res.status(400).render("reservas/nueva", { //400 significa que la solicitud es incorrecta, y se va a renderizar la vista reservas/nueva.ejs con los valores que el usuario ingreso en el formulario, para que pueda corregirlos. Y se va a mostrar un mensaje de error.
+      titulo: "AGREGUE UNA NUEVA RESERVA",
+      error: "revisa los cambios y elija entre 1 y 6 lugares.", //este error no se deberia mostrar ya que el formulario lleva un option de 1 a 6 y no es posible que el usuario ingrese un valor fuera de ese rango, pero se deja por si acaso. Y este error se va a mostrar en la vista reservas/nueva.ejs
+      valores: req.body, //En esta linea, valores: vienen del formulario nueva.ejs y se va a encargar de devolver y mostrar los valores que el usuario ingreso en el formulario
     });
   }
   req.reservaValidada = { estudiante, email, sala, fecha, turno, personas }; // Esta linea sirve para GUARDAR los datos validados en el objeto req, para que luego se puedan usar en la funcion crearInscripciones
   next(); //En el caso de que no haya casos invalidos continuamos el flujo con next
 }
 
-module.exports = { prepararAreaReservas, validarDatosReserva }; //Esto se exporta a /rutas/reservas
+module.exports = { prepararAreaReservas, validarDatosReserva }; 

@@ -10,7 +10,7 @@ function crearControladorReservas(servicioReservas) { //el parametro servicio es
         res.status(200).render("reservas/nueva", {
             titulo: "AGREGUE UNA NUEVA RESERVA",
             error: null,
-            valores: {}, //En este caso no estamos utilizando nada
+            valores: {}, 
         });
     }
     function mostrarDetalle(req, res) {
